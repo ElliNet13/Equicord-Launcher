@@ -3,7 +3,6 @@ REM Clean previous build and dist folders, if they exist
 rmdir /s /q dist
 rmdir /s /q build
 
-REM Run PyInstaller with your chosen name and icon
 pyinstaller --clean --name=VencordLauncher --icon=icon.ico main.py
 
 REM Copy config.json next to the executable
