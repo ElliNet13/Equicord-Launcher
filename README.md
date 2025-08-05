@@ -1,6 +1,6 @@
 # VencordLauncher
 
-A Windows utility that can be used as a drop-in replacement for the standard Discord launcher. Ensures that Vencord and, optionally, OpenAsar always remain up to date, even after a Discord update. With autostart function. Make sure that you disable Discord's default autostart, if you want to use the autostart feature of this application.
+A Windows utility that can be used as a drop-in replacement for the standard Discord launcher. Ensures that Vencord and, optionally, OpenAsar always remain up to date, even after a Discord update. With autostart function.
 
 ## Features
 - **Detects Vencord and OpenAsar installation status**
@@ -15,6 +15,7 @@ A Windows utility that can be used as a drop-in replacement for the standard Dis
 1. Download from the releases tab.
 2. Check the config.json
 3. Start the exe.
+4. Make sure that you disable Discord's default autostart, if you want to use the autostart feature of this application.
 
 ## Build
 1. Clone the repository
