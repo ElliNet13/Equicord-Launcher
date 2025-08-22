@@ -20,12 +20,12 @@ else:
 
 LOGFILE = BASEDIR / "latest.log"
 CONFIGFILE = BASEDIR / "config.json"
-CLI_PATH = BASEDIR / "VencordInstallerCli.exe"
+CLI_PATH = BASEDIR / "EquilotlCli.exe"
 
 def main():
     init_logfile(LOGFILE)
     print()
-    log_info("VencordChecker started.")
+    log_info("EquicordChecker started.")
 
     branch, openasar, autostart, start_minimized = load_config(CONFIGFILE)
 
@@ -34,19 +34,19 @@ def main():
     discord_app_dir = find_discord_appdir()
 
     if is_vencord_present(discord_app_dir):
-        log_info("Vencord already present. Launching Discord...")
+        log_info("Equicord already present. Launching Discord...")
         start_discord(discord_app_dir, start_minimized)
         print()
         sys.exit(0)
     else:
-        log_info("Vencord not found. Proceeding with installation...")
+        log_info("Equicord not found. Proceeding with installation...")
         ensure_vencord_cli(CLI_PATH)
         update_vencord_cli(CLI_PATH)
         if openasar is True or (isinstance(openasar, str) and openasar.lower() == "true"):
             install_openasar(CLI_PATH, branch)
         install_vencord(CLI_PATH, branch)
         time.sleep(1)
-        log_info("Launching Discord after Vencord installation...")
+        log_info("Launching Discord after Equicord installation...")
         start_discord(discord_app_dir, start_minimized)
         print()
         sys.exit(0)

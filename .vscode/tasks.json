@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "windows": {
+        "command": "cd ${workspaceFolder} && ./build.bat"
+      },
+      "linux": {
+        "command": "echo This only supports Windows && exit 1"
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

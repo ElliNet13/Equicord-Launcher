@@ -26,21 +26,21 @@ def is_vencord_present(app_dir):
 def ensure_vencord_cli(cli_path):
     if cli_path.exists():
         return
-    log_warning("VencordInstallerCli.exe not found. Downloading latest version...")
-    url = "https://github.com/Vencord/Installer/releases/latest/download/VencordInstallerCli.exe"
+    log_warning("EquilotlCli.exe not found. Downloading latest version...")
+    url = "https://github.com/Equicord/Equilotl/releases/latest/download/EquilotlCli.exe"
     try:
         urllib.request.urlretrieve(url, str(cli_path))
-        log_info("Downloaded VencordInstallerCli.exe successfully.")
+        log_info("Downloaded EquilotlCli.exe successfully.")
     except Exception as e:
-        log_error(f"Failed to download VencordInstallerCli.exe: {e}")
+        log_error(f"Failed to download EquilotlCli.exe: {e}")
         sys.exit(1)
 
 def update_vencord_cli(cli_path):
-    log_info("Checking for updates for VencordInstallerCli...")
+    log_info("Checking for updates for EquilotlCli...")
     try:
         subprocess.run([str(cli_path), "-update-self"], check=True)
     except subprocess.CalledProcessError:
-        log_warning("VencordInstallerCli self-update failed or no update available (see above).")
+        log_warning("EquilotlCli self-update failed or no update available (see above).")
 
 def install_openasar(cli_path, branch):
     log_info(f"Installing OpenAsar for branch '{branch}'...")
