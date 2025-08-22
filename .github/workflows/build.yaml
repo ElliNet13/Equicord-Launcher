@@ -1,0 +1,42 @@
+name: Build EquicordLauncher
+
+on:
+  release:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      # 1. Checkout the repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      # 3. Install Python dependencies
+      - name: Install requirements
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Run the build.bat file
+      - name: Run build.bat
+        run: ./build.bat
+
+      # 5. Zip the output folder
+      - name: Zip EquicordLauncher
+        run: |
+          powershell Compress-Archive -Path "dist\EquicordLauncher\*" -DestinationPath "EquicordLauncher.zip"
+
+      # 6. Upload zip to the release
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: EquicordLauncher.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

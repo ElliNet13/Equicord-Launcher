@@ -10,4 +10,3 @@ copy config.json dist\EquicordLauncher\config.json
 
 echo.
 echo Done! The EXE and config.json are now in dist\EquicordLauncher\
-pause
