@@ -9,6 +9,14 @@ from vencord_ops import (
     find_discord_appdir, is_vencord_present, ensure_vencord_cli,
     update_vencord_cli, install_openasar, install_vencord, start_discord
 )
+import ctypes
+
+def set_taskbar_id(app_id: str):
+    """Set the Windows taskbar AppUserModelID for the current process."""
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+
+# Call this early in your launcher
+set_taskbar_id("Equicord.Launcher")
 
 # Always use the folder where the exe (or script) is located
 if getattr(sys, 'frozen', False):

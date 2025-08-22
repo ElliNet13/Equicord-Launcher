@@ -5,7 +5,44 @@ import glob
 import urllib.request
 from pathlib import Path
 from logging_utils import log_info, log_error, log_warning
+import ctypes
 
+# ----------------------------------------
+# Taskbar AppUserModelID helper
+# ----------------------------------------
+def set_taskbar_id(app_id: str):
+    """Set AppUserModelID for the current process (Windows taskbar grouping)."""
+    try:
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+    except Exception as e:
+        log_warning(f"Failed to set AppUserModelID: {e}")
+
+def set_child_taskbar_id(exe_path: Path, app_id: str, args=None):
+    """Launch a Windows process with a custom AppUserModelID to merge taskbar icons."""
+    if args is None:
+        args = []
+
+    # Use STARTUPINFO to avoid extra console windows
+    si = subprocess.STARTUPINFO()
+    si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+    try:
+        process = subprocess.Popen([str(exe_path)] + args, startupinfo=si, close_fds=True)
+    except Exception as e:
+        log_error(f"Failed to launch {exe_path}: {e}")
+        sys.exit(1)
+
+    # Set the AppUserModelID for this process (best-effort, some windows may already exist)
+    try:
+        set_taskbar_id(app_id)
+    except Exception:
+        pass
+
+    return process
+
+# ----------------------------------------
+# Discord / Vencord helpers
+# ----------------------------------------
 def find_discord_appdir():
     localappdata = Path(os.environ.get("LOCALAPPDATA", ""))
     discord_dir = localappdata / "Discord"
@@ -65,11 +102,14 @@ def start_discord(app_dir, minimized):
     if not exe_path.exists():
         log_error("Discord.exe not found in latest app-* folder.")
         sys.exit(1)
+
+    app_id = "Equicord.Launcher"  # taskbar merge ID
+
     if minimized is True or (isinstance(minimized, str) and minimized.lower() == "true"):
         log_info("Starting Discord minimized...")
-        subprocess.Popen([str(exe_path), "--start-minimized"], close_fds=True)
+        set_child_taskbar_id(exe_path, app_id, ["--start-minimized"])
         log_info("Discord started (minimized).")
     else:
         log_info("Starting Discord...")
-        subprocess.Popen([str(exe_path)], close_fds=True)
+        set_child_taskbar_id(exe_path, app_id)
         log_info("Discord started.")
